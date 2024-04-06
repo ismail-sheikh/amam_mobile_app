@@ -82,7 +82,7 @@ class SideMenuSubCategoriesState extends State<SideMenuSubCategories> {
         }
 
         var icons = getListIcons(categories);
-
+        printLog(icons);
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -104,11 +104,11 @@ class SideMenuSubCategoriesState extends State<SideMenuSubCategories> {
                       ),
                       decoration: BoxDecoration(
                         color: selectedIndex == index
-                            ? theme.primaryColor.withOpacity(0.1)
-                            : Colors.transparent,
+                            ? Colors.transparent
+                            : theme.primaryColor.withOpacity(0.1),
                         borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(8),
-                          bottomRight: Radius.circular(8),
+                          topRight: Radius.circular(0),
+                          bottomRight: Radius.circular(0),
                         ),
                       ),
                       child: Padding(
@@ -121,17 +121,17 @@ class SideMenuSubCategoriesState extends State<SideMenuSubCategories> {
                               ? theme.textTheme.bodySmall!.copyWith(
                                   fontSize: 11,
                                   color: theme.primaryColor,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w700,
                                 )
                               : theme.textTheme.bodySmall!.copyWith(
                                   fontSize: 11,
                                   color: theme.colorScheme.secondary,
+                                  fontWeight: FontWeight.w700,
                                 ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           duration: const Duration(milliseconds: 200),
-                          child:
-                              Text(categories[index].name?.toUpperCase() ?? ''),
+                          child: Text(categories[index].name ?? ''),
                         ),
                       ),
                     ),
@@ -189,7 +189,6 @@ class _StateGridSubCategory extends State<GridSubCategory> {
   @override
   Widget build(BuildContext context) {
     final categories = widget.categories;
-
     // ignore: unnecessary_null_comparison
     if (categories == null) {
       return Container(
@@ -240,7 +239,7 @@ class _StateGridSubCategory extends State<GridSubCategory> {
                             ),
                             const SizedBox(height: 8.0),
                             Text(
-                              categories[i].name!.toUpperCase(),
+                              categories[i].name!,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
