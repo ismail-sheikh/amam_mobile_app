@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../generated/l10n.dart';
+import '../config/box_shadow_config.dart';
+import '../config/header_config.dart';
+import '../header/header_text.dart';
 import 'countdown_timer.dart';
 import 'helper.dart';
 
@@ -32,14 +35,16 @@ class HeaderView extends StatelessWidget {
     return SizedBox(
       width: screenSize.width,
       child: Container(
-        color: Theme.of(context).colorScheme.background,
-        margin: EdgeInsets.only(top: verticalMargin!),
-        padding: EdgeInsets.only(
-          left: horizontalMargin ?? 16.0,
-          top: verticalMargin!,
-          right: horizontalMargin ?? 8.0,
-          bottom: verticalMargin!,
-        ),
+        // 0x0E9E9E9E
+        color: const Color(0x0E9E9E9E),
+        // Theme.of(context).colorScheme.background
+        margin: EdgeInsets.only(top: verticalMargin!,bottom: 5.0),
+        // padding: EdgeInsets.only(
+        //   left: horizontalMargin ?? 8.0,
+        //   top: verticalMargin!,
+        //   right: horizontalMargin ?? 8.0,
+        //   bottom: verticalMargin!,
+        // ),
         child: Row(
           textBaseline: TextBaseline.alphabetic,
           crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -51,15 +56,30 @@ class HeaderView extends StatelessWidget {
                   if (isDesktop) ...[
                     const Divider(height: 50, indent: 30, endIndent: 30),
                   ],
-                  Text(
-                    headerText ?? '',
-                    style: isDesktop
-                        ? Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(fontWeight: FontWeight.w700)
-                        : Theme.of(context).textTheme.titleLarge,
-                  ),
+                  HeaderText(config: HeaderConfig(
+                    title: headerText,
+                    textColor: '#000000',
+                    marginBottom: 0.0,
+                    marginTop: 0.0,
+                    paddingLeft: 8.0,
+                    paddingRight: 0.0,
+                    fontSize: 15.0,
+                    showSearch: false,
+                    boxShadow: BoxShadowConfig(
+                      blurRadius: 10.0,
+                      spreadRadius: 10.0,
+                      )
+                    )),
+                    
+                  // Text(
+                  //   headerText ?? '',
+                  //   style: isDesktop
+                  //       ? Theme.of(context)
+                  //           .textTheme
+                  //           .headlineSmall!
+                  //           .copyWith(fontWeight: FontWeight.w700)
+                  //       : Theme.of(context).textTheme.titleMedium,
+                  // ),
                   if (showCountdown)
                     Row(
                       children: [

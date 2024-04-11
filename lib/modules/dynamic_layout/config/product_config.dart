@@ -217,7 +217,7 @@ class ProductConfig {
     imageRatio = kAdvanceConfig.ratioProductImage * 1.0;
     imageBoxfit = Configurations.productCard['boxFit'] ??
         Configurations.productCard['fit'] ??
-        'cover';
+        'contain';
     hidePrice = kProductCard.hidePrice;
     hideTitle = kProductCard.hideTitle;
     hideStore = kProductCard.hideStore;

@@ -41,7 +41,6 @@ class SideMenuSubCategoriesState extends State<SideMenuSubCategories> {
         icons[cat.id] = cat.image;
       } else {
         icons[cat.id] = 'assets/images/app_icon.png';
-        // log((Image.asset('assets/images/image_placeholder.png')).toString());
       }
     }
     return Map<String, dynamic>.from(icons);
@@ -82,7 +81,6 @@ class SideMenuSubCategoriesState extends State<SideMenuSubCategories> {
         }
 
         var icons = getListIcons(categories);
-        printLog(icons);
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -234,7 +232,8 @@ class _StateGridSubCategory extends State<GridSubCategory> {
                                 width: gridSize,
                                 height: gridSize,
                                 child:
-                                    FluxImage(imageUrl: categories[i].image!),
+                                
+                                    FluxImage(imageUrl: (getCatImagePlaceholder(categories[i].image))!),
                               ),
                             ),
                             const SizedBox(height: 8.0),
@@ -334,5 +333,12 @@ class _StateGridSubCategory extends State<GridSubCategory> {
         cateName: widget.parentCategory!.name,
       ),
     );
+  }
+
+  String? getCatImagePlaceholder(String? imageUrl){
+    if(imageUrl !=null && imageUrl.contains('trello')){
+      imageUrl= 'assets/images/app_icon.png';
+    }
+    return imageUrl;
   }
 }
