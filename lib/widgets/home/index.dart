@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:inspireui/icons/constants.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/entities/index.dart';
 import '../../common/config.dart';
 import '../../common/constants.dart';
 import '../../common/tools.dart';
@@ -296,4 +297,36 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
               );
         },
       );
+}
+
+class TopCategories extends StatefulWidget {
+  final List<Category> categories;
+  final Map<String, dynamic>? icons;
+
+  final Category? parentCategory;
+  final String? parentCategoryImage;
+
+  const TopCategories(
+    this.categories, {
+    this.icons,
+    this.parentCategory,
+    this.parentCategoryImage,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<TopCategories> createState() => _StateTopCategories();
+}
+
+class _StateTopCategories extends State<TopCategories> {
+  @override
+  Widget build(BuildContext context) {
+    // final categories = widget.categories;
+    // ignore: unnecessary_null_comparison
+    // if (categories == null) {
+    return Container(
+      child: kLoadingWidget(context),
+    );
+    // }
+  }
 }
