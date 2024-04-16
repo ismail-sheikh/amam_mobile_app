@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
 import 'package:inspireui/icons/constants.dart';
 import 'package:provider/provider.dart';
+
 import '../../../models/category/category_model.dart';
-import '../../../models/entities/index.dart';
 import '../../common/config.dart';
 import '../../common/constants.dart';
 import '../../common/tools.dart';
@@ -44,22 +44,86 @@ class HomeLayout extends StatefulWidget {
 }
 
 class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
-  late List widgetData;
+  late List widgetData, topCategories;
+  Map<String, dynamic> topCategoriesLayout = {
+    'layout': 'category',
+    'type': 'image',
+    'wrap': false,
+    'showShortDescription': true,
+    'size': 1.0,
+    'radius': 150.0,
+    'spacing': 12,
+    'line': false,
+    'marginLeft': 0,
+    'marginRight': 0,
+    'marginTop': 10,
+    'marginBottom': 10,
+    'paddingX': 1,
+    'paddingY': 10,
+    'marginX': 0,
+    'marginY': 0,
+    'hideTitle': false,
+    'noBackground': false,
+    'imageBorderWidth': 0,
+    'imageBorderColor': 'ffe61a00',
+    'imageBorderStyle': 'dot',
+    'imageSpacing': 0,
+    'labelFontSize': 14,
+    'horizontalItem': false,
+    'separateWidth': 24,
+    'gradientStyle': false,
+    'border': 0.6,
+    'enableBorder': false,
+    'textAlignment': 'topCenter',
+    'imageBoxFit': 'fill',
+    'pos': 400
+  };
+
   dynamic verticalWidgetData;
   var _useNestedScrollView = true;
 
   bool isPreviewingAppBar = false;
 
   bool cleanCache = false;
+  CategoryModel get categoryModel =>
+      Provider.of<CategoryModel>(context, listen: false);
+
+  void initTopCategories() {
+    var categories = <Map>[];
+    var categoriesList = categoryModel.categories;
+    if (categoriesList != null) {
+      for (var cat in categoriesList) {
+        if (cat.parent == '0') {
+          categories.add(<String, dynamic>{
+            'category': cat.id,
+            'image': cat.image,
+            'showText': true,
+            'originalColor': true,
+            'keepDefaultTitle': true,
+            'showDescription': false,
+            'productType': false,
+            'title': cat.displayName,
+            'onSale': false,
+            'isFeatured': false
+          });
+        }
+      }
+    }
+    topCategoriesLayout['items'] = categories;
+  }
 
   @override
   void initState() {
+    initTopCategories();
+
     /// init config data
     widgetData =
         List<Map<String, dynamic>>.from(widget.configs['HorizonLayout']);
     if (widgetData.isNotEmpty && widget.isShowAppbar && !widget.showNewAppBar) {
       widgetData.removeAt(0);
     }
+    widgetData.add(topCategoriesLayout);
+    // printLog(topCategoriesLayout);
 
     /// init single vertical layout
     if (widget.configs['VerticalLayout'] != null &&
@@ -191,7 +255,6 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
   @override
   Widget build(BuildContext context) {
     if (widget.configs == null) return const SizedBox();
-
     ErrorWidget.builder = (error) {
       if (foundation.kReleaseMode) {
         return const SizedBox();
@@ -299,57 +362,57 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
       );
 }
 
-class TopCategories extends StatefulWidget {
-  final List<Category> categories;
-  final Map<String, dynamic>? icons;
+// class TopCategories extends StatelessWidget {
+//   final List<Category> categories;
+//   final Map<String, dynamic>? icons;
 
-  const TopCategories(
-    this.categories, {
-    this.icons,
-    Key? key,
-  }) : super(key: key);
+//   const TopCategories(
+//     this.categories, {
+//     this.icons,
+//     Key? key,
+//   }) : super(key: key);
 
-  @override
-  State<TopCategories> createState() => _StateTopCategories();
-}
+//   // @override
+//   // State<TopCategories> createState() => _StateTopCategories();
+// }
 
-class _StateTopCategories extends State<TopCategories> {
+// class _StateTopCategories extends State<TopCategories> {
   
-   CategoryModel get categoryModel =>
-      Provider.of<CategoryModel>(context, listen: false);
+//    CategoryModel get categoryModel =>
+//       Provider.of<CategoryModel>(context, listen: false);
 
-  Map<String, dynamic> getListIcons(categories) {
-    var icons = <String?, dynamic>{};
-    for (var cat in categories) {
-      if (cat.image != null &&
-          cat.image!.isNotEmpty &&
-          !(cat.image).contains('trello')) {
-        icons[cat.id] = cat.image;
-      } else {
-        icons[cat.id] = 'assets/images/app_icon.png';
-      }
-    }
-    return Map<String, dynamic>.from(icons);
-  }
+//   Map<String, dynamic> getListIcons(categories) {
+//     var icons = <String?, dynamic>{};
+//     for (var cat in categories) {
+//       if (cat.image != null &&
+//           cat.image!.isNotEmpty &&
+//           !(cat.image).contains('trello')) {
+//         icons[cat.id] = cat.image;
+//       } else {
+//         icons[cat.id] = 'assets/images/app_icon.png';
+//       }
+//     }
+//     return Map<String, dynamic>.from(icons);
+//   }
 
-  List<Category> getListCategories() {
-    var categories = <Category>[];
-    for (var cat in categoryModel.categories!) {
-      if (cat.parent == '0') {
-        categories.add(cat);
-      }
-    }
-    return categories;
-  }
+//   List<Category> getListCategories() {
+//     var categories = <Category>[];
+//     for (var cat in categoryModel.categories!) {
+//       if (cat.parent == '0') {
+//         categories.add(cat);
+//       }
+//     }
+//     return categories;
+//   }
   
-  @override
-  Widget build(BuildContext context) {
-    // final categories = widget.categories;
-    // ignore: unnecessary_null_comparison
-    // if (categories == null) {
-    return Container(
-      child: kLoadingWidget(context),
-    );
-    // }
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     // final categories = widget.categories;
+//     // ignore: unnecessary_null_comparison
+//     // if (categories == null) {
+//     return Container(
+//       child: kLoadingWidget(context),
+//     );
+//     // }
+//   }
+// }
