@@ -89,7 +89,9 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
       Provider.of<CategoryModel>(context, listen: false);
 
   void initTopCategories() {
-    var categories = <Map>[];
+    
+    var categories = <Map<String, dynamic>>[];
+    // var categoriesList = categoryModel.categories;
     var categoriesList = categoryModel.categories;
     if (categoriesList != null) {
       for (var cat in categoriesList) {
@@ -108,6 +110,19 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
           });
         }
       }
+    } else {
+      categories.add(<String, dynamic>{
+        'category': '2388',
+        'image': 'assets/images/app_icon.png',
+        'showText': true,
+        'originalColor': true,
+        'keepDefaultTitle': true,
+        'showDescription': false,
+        'productType': false,
+        'title': 'Toys & Games',
+        'onSale': false,
+        'isFeatured': false
+      });
     }
     topCategoriesLayout['items'] = categories;
   }
@@ -259,6 +274,10 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
       if (foundation.kReleaseMode) {
         return const SizedBox();
       }
+    //   return Consumer<CategoryModel>(
+    //     builder:(context, provider, child){
+    //     final categories = provider.categories ;
+    // })
       return Container(
         constraints: const BoxConstraints(minHeight: 150),
         decoration: BoxDecoration(
@@ -278,6 +297,7 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
     if (horizontalLayouts.length == 1 && widget.enableRefresh) {
       _useNestedScrollView = false;
     }
+   
 
     return SafeArea(
       bottom: false,
@@ -361,58 +381,3 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
         },
       );
 }
-
-// class TopCategories extends StatelessWidget {
-//   final List<Category> categories;
-//   final Map<String, dynamic>? icons;
-
-//   const TopCategories(
-//     this.categories, {
-//     this.icons,
-//     Key? key,
-//   }) : super(key: key);
-
-//   // @override
-//   // State<TopCategories> createState() => _StateTopCategories();
-// }
-
-// class _StateTopCategories extends State<TopCategories> {
-  
-//    CategoryModel get categoryModel =>
-//       Provider.of<CategoryModel>(context, listen: false);
-
-//   Map<String, dynamic> getListIcons(categories) {
-//     var icons = <String?, dynamic>{};
-//     for (var cat in categories) {
-//       if (cat.image != null &&
-//           cat.image!.isNotEmpty &&
-//           !(cat.image).contains('trello')) {
-//         icons[cat.id] = cat.image;
-//       } else {
-//         icons[cat.id] = 'assets/images/app_icon.png';
-//       }
-//     }
-//     return Map<String, dynamic>.from(icons);
-//   }
-
-//   List<Category> getListCategories() {
-//     var categories = <Category>[];
-//     for (var cat in categoryModel.categories!) {
-//       if (cat.parent == '0') {
-//         categories.add(cat);
-//       }
-//     }
-//     return categories;
-//   }
-  
-//   @override
-//   Widget build(BuildContext context) {
-//     // final categories = widget.categories;
-//     // ignore: unnecessary_null_comparison
-//     // if (categories == null) {
-//     return Container(
-//       child: kLoadingWidget(context),
-//     );
-//     // }
-//   }
-// }
