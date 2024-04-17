@@ -19,7 +19,79 @@ import '../../routes/flux_navigate.dart';
 import '../../screens/common/app_bar_mixin.dart';
 import '../../services/index.dart';
 import '../common/dialogs.dart';
+import '../common/index.dart';
 import 'preview_overlay.dart';
+
+// class TopCategories extends StatefulWidget {
+//   // CategoryModel get categoryModel =>
+//   //     Provider.of<CategoryModel>(context, listen: false);
+//   // @override
+//   // Widget build(BuildContext context) {
+//   //  return Consumer<CategoryModel>(
+//   //     builder: (context, provider, child) {
+//   //       if (provider.isFirstLoad) {
+//   //         return Center(
+//   //           child: kLoadingWidget(context),
+//   //         );
+//   //       }
+//   //       // final categories = provider.rootCategories ?? <Category>[];
+//   //       );
+//   //     }
+
+//   @override
+//   State<TopCategories> createState() => _TopCategoriesState();
+// }
+
+// class _TopCategoriesState extends State<TopCategories> {
+//   CategoryModel get categoryModel =>
+//       Provider.of<CategoryModel>(context, listen: false);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<CategoryModel>(builder: (context, provider, child) {
+//       // return initTopCategories()
+//     }
+//         // final categories = provider.rootCategories ?? <Category>[];
+//         );
+//   }
+
+//   List<Map<String, dynamic>> initTopCategories() {
+//     var categories = <Map<String, dynamic>>[];
+//     // var categoriesList = categoryModel.categories;
+//     var categoriesList = categoryModel.categories;
+//     if (categoriesList != null) {
+//       for (var cat in categoriesList) {
+//         if (cat.parent == '0') {
+//           categories.add(<String, dynamic>{
+//             'category': cat.id,
+//             'image': cat.image,
+//             'showText': true,
+//             'originalColor': true,
+//             'keepDefaultTitle': true,
+//             'showDescription': false,
+//             'productType': false,
+//             'title': cat.displayName,
+//             'onSale': false,
+//             'isFeatured': false
+//           });
+//         }
+//       }
+//     } else {
+//       categories.add(<String, dynamic>{
+//         'category': '2388',
+//         'image': 'assets/images/app_icon.png',
+//         'showText': true,
+//         'originalColor': true,
+//         'keepDefaultTitle': true,
+//         'showDescription': false,
+//         'productType': false,
+//         'title': 'Toys & Games',
+//         'onSale': false,
+//         'isFeatured': false
+//       });
+//     }
+//     return categories;
+//   }
+// }
 
 class HomeLayout extends StatefulWidget {
   final configs;
@@ -87,9 +159,8 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
   bool cleanCache = false;
   CategoryModel get categoryModel =>
       Provider.of<CategoryModel>(context, listen: false);
-
+  // final CategoryModel categoryModel;
   void initTopCategories() {
-    
     var categories = <Map<String, dynamic>>[];
     // var categoriesList = categoryModel.categories;
     var categoriesList = categoryModel.categories;
@@ -274,10 +345,10 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
       if (foundation.kReleaseMode) {
         return const SizedBox();
       }
-    //   return Consumer<CategoryModel>(
-    //     builder:(context, provider, child){
-    //     final categories = provider.categories ;
-    // })
+      //   return Consumer<CategoryModel>(
+      //     builder:(context, provider, child){
+      //     final categories = provider.categories ;
+      // })
       return Container(
         constraints: const BoxConstraints(minHeight: 150),
         decoration: BoxDecoration(
@@ -297,7 +368,6 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
     if (horizontalLayouts.length == 1 && widget.enableRefresh) {
       _useNestedScrollView = false;
     }
-   
 
     return SafeArea(
       bottom: false,
