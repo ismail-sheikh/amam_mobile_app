@@ -19,79 +19,7 @@ import '../../routes/flux_navigate.dart';
 import '../../screens/common/app_bar_mixin.dart';
 import '../../services/index.dart';
 import '../common/dialogs.dart';
-import '../common/index.dart';
 import 'preview_overlay.dart';
-
-// class TopCategories extends StatefulWidget {
-//   // CategoryModel get categoryModel =>
-//   //     Provider.of<CategoryModel>(context, listen: false);
-//   // @override
-//   // Widget build(BuildContext context) {
-//   //  return Consumer<CategoryModel>(
-//   //     builder: (context, provider, child) {
-//   //       if (provider.isFirstLoad) {
-//   //         return Center(
-//   //           child: kLoadingWidget(context),
-//   //         );
-//   //       }
-//   //       // final categories = provider.rootCategories ?? <Category>[];
-//   //       );
-//   //     }
-
-//   @override
-//   State<TopCategories> createState() => _TopCategoriesState();
-// }
-
-// class _TopCategoriesState extends State<TopCategories> {
-//   CategoryModel get categoryModel =>
-//       Provider.of<CategoryModel>(context, listen: false);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Consumer<CategoryModel>(builder: (context, provider, child) {
-//       // return initTopCategories()
-//     }
-//         // final categories = provider.rootCategories ?? <Category>[];
-//         );
-//   }
-
-//   List<Map<String, dynamic>> initTopCategories() {
-//     var categories = <Map<String, dynamic>>[];
-//     // var categoriesList = categoryModel.categories;
-//     var categoriesList = categoryModel.categories;
-//     if (categoriesList != null) {
-//       for (var cat in categoriesList) {
-//         if (cat.parent == '0') {
-//           categories.add(<String, dynamic>{
-//             'category': cat.id,
-//             'image': cat.image,
-//             'showText': true,
-//             'originalColor': true,
-//             'keepDefaultTitle': true,
-//             'showDescription': false,
-//             'productType': false,
-//             'title': cat.displayName,
-//             'onSale': false,
-//             'isFeatured': false
-//           });
-//         }
-//       }
-//     } else {
-//       categories.add(<String, dynamic>{
-//         'category': '2388',
-//         'image': 'assets/images/app_icon.png',
-//         'showText': true,
-//         'originalColor': true,
-//         'keepDefaultTitle': true,
-//         'showDescription': false,
-//         'productType': false,
-//         'title': 'Toys & Games',
-//         'onSale': false,
-//         'isFeatured': false
-//       });
-//     }
-//     return categories;
-//   }
-// }
 
 class HomeLayout extends StatefulWidget {
   final configs;
@@ -117,6 +45,7 @@ class HomeLayout extends StatefulWidget {
 
 class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
   late List widgetData, topCategories;
+  final Services _service = Services();
   Map<String, dynamic> topCategoriesLayout = {
     'layout': 'category',
     'type': 'image',
@@ -157,50 +86,49 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
   bool isPreviewingAppBar = false;
 
   bool cleanCache = false;
-  CategoryModel get categoryModel =>
-      Provider.of<CategoryModel>(context, listen: false);
-  // final CategoryModel categoryModel;
-  void initTopCategories() {
+  // CategoryModel get categoryModel =>
+  //     Provider.of<CategoryModel>(context, listen: false);
+
+  Future<void> initTopCategories() async{
     var categories = <Map<String, dynamic>>[];
-    // var categoriesList = categoryModel.categories;
-    var categoriesList = categoryModel.categories;
-    if (categoriesList != null) {
-      for (var cat in categoriesList) {
-        if (cat.parent == '0') {
-          categories.add(<String, dynamic>{
-            'category': cat.id,
-            'image': cat.image,
-            'showText': true,
-            'originalColor': true,
-            'keepDefaultTitle': true,
-            'showDescription': false,
-            'productType': false,
-            'title': cat.displayName,
-            'onSale': false,
-            'isFeatured': false
-          });
-        }
+    // final categoryModel = Provider.of<CategoryModel>(context, listen: false);
+    // categoryModel.refreshCategoryList();
+    // var categorieList =
+    //     Provider.of<CategoryModel>(context, listen: false).categories;
+    var categorieList = await _service.api.getCategories();
+    // if (categorieList == null) {
+    //   await Provider.of<CategoryModel>(context, listen: false).getCategories();
+    //   categorieList =
+    //       Provider.of<CategoryModel>(context, listen: false).categories;
+    //   if (categorieList == null) {
+    //     return;
+    //   }
+    // }
+    if (categorieList == null) {
+      return;
+    }
+    for (var cat in categorieList) {
+      if (cat.parent == '0') {
+        categories.add(<String, dynamic>{
+          'category': cat.id,
+          'image': cat.image,
+          'showText': true,
+          'originalColor': true,
+          'keepDefaultTitle': true,
+          'showDescription': false,
+          'productType': false,
+          'title': cat.displayName,
+          'onSale': false,
+          'isFeatured': false
+        });
       }
-    } else {
-      categories.add(<String, dynamic>{
-        'category': '2388',
-        'image': 'assets/images/app_icon.png',
-        'showText': true,
-        'originalColor': true,
-        'keepDefaultTitle': true,
-        'showDescription': false,
-        'productType': false,
-        'title': 'Toys & Games',
-        'onSale': false,
-        'isFeatured': false
-      });
     }
     topCategoriesLayout['items'] = categories;
   }
 
   @override
   void initState() {
-    initTopCategories();
+   initTopCategories();
 
     /// init config data
     widgetData =
