@@ -91,19 +91,7 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
 
   Future<void> initTopCategories() async{
     var categories = <Map<String, dynamic>>[];
-    // final categoryModel = Provider.of<CategoryModel>(context, listen: false);
-    // categoryModel.refreshCategoryList();
-    // var categorieList =
-    //     Provider.of<CategoryModel>(context, listen: false).categories;
-    var categorieList = await _service.api.getCategories();
-    // if (categorieList == null) {
-    //   await Provider.of<CategoryModel>(context, listen: false).getCategories();
-    //   categorieList =
-    //       Provider.of<CategoryModel>(context, listen: false).categories;
-    //   if (categorieList == null) {
-    //     return;
-    //   }
-    // }
+    final categorieList = await _service.api.getCategories();
     if (categorieList == null) {
       return;
     }
