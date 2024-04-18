@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:inspireui/icons/constants.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/category/category_model.dart';
 import '../../common/config.dart';
 import '../../common/constants.dart';
 import '../../common/tools.dart';
@@ -59,7 +58,7 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
     'marginRight': 0,
     'marginTop': 10,
     'marginBottom': 10,
-    'paddingX': 1,
+    'paddingX': 12,
     'paddingY': 10,
     'marginX': 0,
     'marginY': 0,
@@ -89,42 +88,56 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
   // CategoryModel get categoryModel =>
   //     Provider.of<CategoryModel>(context, listen: false);
 
-  Future<void> initTopCategories() async{
+  Future<void> initTopCategories() async {
     var categories = <Map<String, dynamic>>[];
-    final categorieList = await _service.api.getCategories();
-    if (categorieList == null) {
-      return;
-    }
-    for (var cat in categorieList) {
-      if (cat.parent == '0') {
-        categories.add(<String, dynamic>{
-          'category': cat.id,
-          'image': cat.image,
-          'showText': true,
-          'originalColor': true,
-          'keepDefaultTitle': true,
-          'showDescription': false,
-          'productType': false,
-          'title': cat.displayName,
-          'onSale': false,
-          'isFeatured': false
-        });
+    try {
+      final categorieList = await _service.api.getCategories();
+      if (categorieList == null) {
+        return;
       }
+      for (var cat in categorieList) {
+        if (cat.parent == '0') {
+          var image = cat.image;
+          if (image != null && image.contains('trello')) {
+            image = 'assets/images/app_icon.png';
+          }
+          categories.add(<String, dynamic>{
+            'category': cat.id,
+            'image': image,
+            'showText': true,
+            'originalColor': true,
+            'keepDefaultTitle': true,
+            'showDescription': false,
+            'productType': false,
+            'title': cat.displayName,
+            'onSale': false,
+            'isFeatured': false
+          });
+        }
+      }
+      topCategoriesLayout['items'] = categories;
+    } catch (err) {
+      printLog('initTopCategories $err');
     }
-    topCategoriesLayout['items'] = categories;
+    setState(() {});
+  }
+
+  void waitForInitTopCategories() async {
+    await initTopCategories();
   }
 
   @override
   void initState() {
-   initTopCategories();
+    super.initState();
 
     /// init config data
+    waitForInitTopCategories();
     widgetData =
         List<Map<String, dynamic>>.from(widget.configs['HorizonLayout']);
     if (widgetData.isNotEmpty && widget.isShowAppbar && !widget.showNewAppBar) {
       widgetData.removeAt(0);
     }
-    widgetData.add(topCategoriesLayout);
+    widgetData.insert(3, topCategoriesLayout);
     // printLog(topCategoriesLayout);
 
     /// init single vertical layout
@@ -135,8 +148,6 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
       verticalData['type'] = 'vertical';
       verticalWidgetData = verticalData;
     }
-
-    super.initState();
   }
 
   @override
