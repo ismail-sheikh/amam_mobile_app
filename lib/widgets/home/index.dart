@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:inspireui/icons/constants.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/entities/index.dart';
 import '../../common/config.dart';
 import '../../common/constants.dart';
 import '../../common/tools.dart';
@@ -43,7 +44,9 @@ class HomeLayout extends StatefulWidget {
 }
 
 class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
-  late List widgetData, topCategories;
+  late List widgetData;
+  List<Category>? categoriesData;
+
   final Services _service = Services();
   Map<String, dynamic> topCategoriesLayout = {
     'layout': 'category',
@@ -91,7 +94,7 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
   Future<void> initTopCategories() async {
     var categories = <Map<String, dynamic>>[];
     try {
-      final categorieList = await _service.api.getCategories();
+      final categorieList = categoriesData = await _service.api.getCategories();
       if (categorieList == null) {
         return;
       }
@@ -124,6 +127,7 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
 
   void waitForInitTopCategories() async {
     await initTopCategories();
+    printLog(categoriesData);
   }
 
   @override
@@ -268,6 +272,7 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
   @override
   Widget build(BuildContext context) {
     if (widget.configs == null) return const SizedBox();
+    printLog(categoriesData);
     ErrorWidget.builder = (error) {
       if (foundation.kReleaseMode) {
         return const SizedBox();
