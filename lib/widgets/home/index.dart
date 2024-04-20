@@ -127,7 +127,6 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
 
   void waitForInitTopCategories() async {
     await initTopCategories();
-    printLog(categoriesData);
   }
 
   @override
@@ -269,10 +268,20 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
     );
   }
 
+  void addProductsListToWidgetData(categoriesData) async {
+    if (categoriesData != null) {
+      for (var cat in categoriesData) {
+        var productList = await _service.api.fetchProductsByCategory(
+            categoryId: cat.id, page: 1, orderBy: 'date', order: 'desc');
+      }
+      printLog(widgetData);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.configs == null) return const SizedBox();
-    printLog(categoriesData);
+    addProductsListToWidgetData(categoriesData);
     ErrorWidget.builder = (error) {
       if (foundation.kReleaseMode) {
         return const SizedBox();
