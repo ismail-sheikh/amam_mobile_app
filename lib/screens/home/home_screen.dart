@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:inspireui/widgets/smart_engagement_banner/index.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/category/category_model.dart';
+import '../../../models/entities/index.dart';
 import '../../app.dart';
 import '../../common/config.dart';
 import '../../common/constants.dart';
@@ -25,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends BaseScreen<HomeScreen> {
   // @override
   // bool get wantKeepAlive => true;
-
+  List<CategoryItemConfig> catConfigItems = [];
   @override
   void dispose() {
     printLog('[Home] dispose');
@@ -36,6 +38,9 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
   void initState() {
     printLog('[Home] initState');
     super.initState();
+
+    Future.microtask(() => Provider.of<CategoryModel>(context, listen: false)
+        .refreshCategoryList());
   }
 
   void afterClosePopup(int updatedTime) {
@@ -88,6 +93,29 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
                 key: Key('$langCode$countryCode'),
                 scrollController: widget.scrollController,
               ),
+              Consumer<CategoryModel>(builder: (context, provider, child) {
+                // if (provider.isFirstLoad) {
+                //   return Center(
+                //     child: kLoadingWidget(context),
+                //   );
+                // }
+                final categories = provider.rootCategories ?? <Category>[];
+
+                for (var cat in categories) {
+                  var catConfigItem = CategoryItemConfig(
+                      title: cat.displayName, image: cat.image);
+                  catConfigItems.add(catConfigItem);
+                }
+                printLog(categories);
+                return CategoryImages(
+                  config: CategoryConfig(
+                      commonItemConfig: CommonItemConfig(),
+                      items: catConfigItems),
+                );
+              }),
+              // CategoryImages(
+              //   config: CategoryConfig.fromJson(appConfig),
+              // ),
               SmartEngagementBanner(
                 context: App.fluxStoreNavigatorKey.currentContext!,
                 config: bannerConfig,

@@ -134,7 +134,7 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
     super.initState();
 
     /// init config data
-    waitForInitTopCategories();
+    // waitForInitTopCategories();
     widgetData =
         List<Map<String, dynamic>>.from(widget.configs['HorizonLayout']);
     if (widgetData.isNotEmpty && widget.isShowAppbar && !widget.showNewAppBar) {
