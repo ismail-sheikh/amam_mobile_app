@@ -103,10 +103,12 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
 
                 for (var cat in categories) {
                   var catConfigItem = CategoryItemConfig(
-                      title: cat.displayName, image: cat.image);
+                      title: cat.displayName,
+                      image: cat.image,
+                      category: cat.id);
                   catConfigItems.add(catConfigItem);
                 }
-                printLog(categories);
+                // printLog(categories);
                 return CategoryImages(
                   config: CategoryConfig(
                       commonItemConfig: CommonItemConfig(),
