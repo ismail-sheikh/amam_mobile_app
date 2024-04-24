@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:inspireui/icons/constants.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/category/category_model.dart';
 import '../../../models/entities/index.dart';
 import '../../common/config.dart';
 import '../../common/constants.dart';
@@ -45,7 +46,7 @@ class HomeLayout extends StatefulWidget {
 
 class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
   late List widgetData;
-  List<Category>? categoriesData;
+  Map<String?, Category> categoriesData = {};
 
   final Services _service = Services();
   Map<String, dynamic> topCategoriesLayout = {
@@ -54,32 +55,35 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
     'wrap': false,
     'showShortDescription': true,
     'size': 1.0,
-    'radius': 150.0,
-    'spacing': 12,
-    'line': false,
+    // 'radius': 150.0,
+    // 'spacing': 12,
+    // 'line': false,
+    'line': true,
     'marginLeft': 0,
     'marginRight': 0,
-    'marginTop': 10,
-    'marginBottom': 10,
-    'paddingX': 12,
+    // 'marginTop': 10,
+    // 'marginBottom': 10,
+    // 'paddingX': 12,
     'paddingY': 10,
-    'marginX': 0,
-    'marginY': 0,
-    'hideTitle': false,
-    'noBackground': false,
-    'imageBorderWidth': 0,
-    'imageBorderColor': 'ffe61a00',
-    'imageBorderStyle': 'dot',
-    'imageSpacing': 0,
-    'labelFontSize': 14,
-    'horizontalItem': false,
-    'separateWidth': 24,
-    'gradientStyle': false,
-    'border': 0.6,
-    'enableBorder': false,
+    // 'marginX': 0,
+    // 'marginY': 0,
+    // 'hideTitle': false,
+    // 'noBackground': false,
+    // 'imageBorderWidth': 0,
+    // 'imageBorderColor': 'ffe61a00',
+    // 'imageBorderStyle': 'dot',
+    // 'imageSpacing': 0,
+    // 'labelFontSize': 14,
+    'labelFontSize': 12,
+    // 'horizontalItem': false,
+    'horizontalItem': true,
+    // 'separateWidth': 24,
+    // 'gradientStyle': false,
+    // 'border': 0.6,
+    // 'enableBorder': false,
     'textAlignment': 'topCenter',
-    'imageBoxFit': 'fill',
-    'pos': 400
+    // 'imageBoxFit': 'fill',
+    // 'pos': 400
   };
 
   dynamic verticalWidgetData;
@@ -93,8 +97,9 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
 
   Future<void> initTopCategories() async {
     var categories = <Map<String, dynamic>>[];
+    // printLog(categoriesData);
     try {
-      final categorieList = categoriesData = await _service.api.getCategories();
+      final categorieList = await _service.api.getCategories();
       if (categorieList == null) {
         return;
       }
@@ -132,9 +137,13 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
   @override
   void initState() {
     super.initState();
+    Future.microtask(() => Provider.of<CategoryModel>(context, listen: false)
+        .refreshCategoryList());
+    Future.microtask(() => categoriesData =
+        Provider.of<CategoryModel>(context, listen: false).categoryList);
 
     /// init config data
-    // waitForInitTopCategories();
+    waitForInitTopCategories();
     widgetData =
         List<Map<String, dynamic>>.from(widget.configs['HorizonLayout']);
     if (widgetData.isNotEmpty && widget.isShowAppbar && !widget.showNewAppBar) {
@@ -268,20 +277,20 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
     );
   }
 
-  void addProductsListToWidgetData(categoriesData) async {
-    if (categoriesData != null) {
-      for (var cat in categoriesData) {
-        var productList = await _service.api.fetchProductsByCategory(
-            categoryId: cat.id, page: 1, orderBy: 'date', order: 'desc');
-      }
-      printLog(widgetData);
-    }
-  }
+  // void addProductsListToWidgetData(categoriesData) async {
+  //   if (categoriesData != null) {
+  //     for (var cat in categoriesData) {
+  //       var productList = await _service.api.fetchProductsByCategory(
+  //           categoryId: cat.id, page: 1, orderBy: 'date', order: 'desc');
+  //     }
+  //     printLog(widgetData);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     if (widget.configs == null) return const SizedBox();
-    addProductsListToWidgetData(categoriesData);
+    // addProductsListToWidgetData(categoriesData);
     ErrorWidget.builder = (error) {
       if (foundation.kReleaseMode) {
         return const SizedBox();
@@ -351,7 +360,7 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
                   index: previewIndex,
                   config: config,
                   builder: (value) {
-                    return DynamicLayout(config: value, cleanCache: cleanCache);
+                    return DynamicLayout(config: value, cleanCache: true);
                   },
                 );
 
