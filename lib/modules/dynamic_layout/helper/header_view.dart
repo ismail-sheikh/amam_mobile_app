@@ -36,9 +36,9 @@ class HeaderView extends StatelessWidget {
       width: screenSize.width,
       child: Container(
         // 0x0E9E9E9E
-        color: const Color(0x0E9E9E9E),
+        color: const Color(0xFFD7D7D7),
         // Theme.of(context).colorScheme.background
-        margin: EdgeInsets.only(top: verticalMargin!,bottom: 5.0),
+        margin: EdgeInsets.only(top: verticalMargin!, bottom: 5.0),
         // padding: EdgeInsets.only(
         //   left: horizontalMargin ?? 8.0,
         //   top: verticalMargin!,
@@ -56,21 +56,21 @@ class HeaderView extends StatelessWidget {
                   if (isDesktop) ...[
                     const Divider(height: 50, indent: 30, endIndent: 30),
                   ],
-                  HeaderText(config: HeaderConfig(
-                    title: headerText,
-                    textColor: '#000000',
-                    marginBottom: 0.0,
-                    marginTop: 0.0,
-                    paddingLeft: 8.0,
-                    paddingRight: 0.0,
-                    fontSize: 15.0,
-                    showSearch: false,
-                    boxShadow: BoxShadowConfig(
-                      blurRadius: 10.0,
-                      spreadRadius: 10.0,
-                      )
-                    )),
-                    
+                  HeaderText(
+                      config: HeaderConfig(
+                          title: headerText,
+                          textColor: '#000000',
+                          marginBottom: 0.0,
+                          marginTop: 0.0,
+                          paddingLeft: 8.0,
+                          paddingRight: 0.0,
+                          fontSize: 15.0,
+                          showSearch: false,
+                          boxShadow: BoxShadowConfig(
+                            blurRadius: 10.0,
+                            spreadRadius: 10.0,
+                          ))),
+
                   // Text(
                   //   headerText ?? '',
                   //   style: isDesktop

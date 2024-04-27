@@ -28,9 +28,10 @@ class HeaderText extends StatelessWidget {
       top: config.isSafeArea,
       child: BackgroundColorWidget(
         height: height.toDouble(),
-        color: config.backgroundColor != null
-            ? HexColor(config.backgroundColor)
-            : null,
+        // color: config.backgroundColor != null
+        //     ? HexColor(config.backgroundColor)
+        //     : null,
+        color: const Color(0xFFD7D7D7),
         enable: enableBG,
         padding: EdgeInsets.only(
           top: config.paddingTop.toDouble(),

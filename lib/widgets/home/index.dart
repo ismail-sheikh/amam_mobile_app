@@ -64,7 +64,7 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
     // 'marginTop': 10,
     // 'marginBottom': 10,
     // 'paddingX': 12,
-    'paddingY': 10,
+    'paddingY': 5,
     // 'marginX': 0,
     // 'marginY': 0,
     // 'hideTitle': false,
@@ -143,13 +143,13 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
         Provider.of<CategoryModel>(context, listen: false).categoryList);
 
     /// init config data
-    waitForInitTopCategories();
+    // waitForInitTopCategories();
     widgetData =
         List<Map<String, dynamic>>.from(widget.configs['HorizonLayout']);
     if (widgetData.isNotEmpty && widget.isShowAppbar && !widget.showNewAppBar) {
       widgetData.removeAt(0);
     }
-    widgetData.insert(3, topCategoriesLayout);
+    // widgetData.insert(3, topCategoriesLayout);
     // printLog(topCategoriesLayout);
 
     /// init single vertical layout
@@ -360,7 +360,7 @@ class _HomeLayoutState extends State<HomeLayout> with AppBarMixin {
                   index: previewIndex,
                   config: config,
                   builder: (value) {
-                    return DynamicLayout(config: value, cleanCache: true);
+                    return DynamicLayout(config: value, cleanCache: cleanCache);
                   },
                 );
 
