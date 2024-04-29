@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../common/tools/tools.dart';
 import '../../../widgets/common/background_color_widget.dart';
@@ -112,26 +111,26 @@ class _StateBannerSlider extends State<BannerSlider> {
                 ),
             ],
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: SmoothPageIndicator(
-                controller: _controller, // PageController
-                count: items.length,
-                effect: SlideEffect(
-                  spacing: 8.0,
-                  radius: 5.0,
-                  dotWidth: isCirclePageIndicator ? 6.0 : 24.0,
-                  dotHeight: isCirclePageIndicator ? 6.0 : 2.0,
-                  paintStyle: PaintingStyle.fill,
-                  strokeWidth: 1.5,
-                  dotColor: Colors.black12,
-                  activeDotColor: Colors.black87,
-                ),
-              ),
-            ),
-          ),
+          // Align(
+          //   alignment: Alignment.bottomCenter,
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(bottom: 12),
+          //     child: SmoothPageIndicator(
+          //       controller: _controller, // PageController
+          //       count: items.length,
+          //       effect: SlideEffect(
+          //         spacing: 8.0,
+          //         radius: 5.0,
+          //         dotWidth: isCirclePageIndicator ? 6.0 : 24.0,
+          //         dotHeight: isCirclePageIndicator ? 6.0 : 2.0,
+          //         paintStyle: PaintingStyle.fill,
+          //         strokeWidth: 1.5,
+          //         dotColor: Colors.black12,
+          //         activeDotColor: Colors.black87,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           showNumber
               ? Align(
                   alignment: Alignment.topRight,

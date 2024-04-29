@@ -31,7 +31,7 @@ class HeaderText extends StatelessWidget {
         // color: config.backgroundColor != null
         //     ? HexColor(config.backgroundColor)
         //     : null,
-        color: const Color(0xFFD7D7D7),
+        color: const Color.fromARGB(255, 238, 238, 238),
         enable: enableBG,
         padding: EdgeInsets.only(
           top: config.paddingTop.toDouble(),

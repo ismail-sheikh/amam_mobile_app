@@ -36,7 +36,7 @@ class HeaderView extends StatelessWidget {
       width: screenSize.width,
       child: Container(
         // 0x0E9E9E9E
-        color: const Color(0xFFD7D7D7),
+        color: const Color.fromARGB(255, 238, 238, 238),
         // Theme.of(context).colorScheme.background
         margin: EdgeInsets.only(top: verticalMargin!, bottom: 5.0),
         // padding: EdgeInsets.only(
