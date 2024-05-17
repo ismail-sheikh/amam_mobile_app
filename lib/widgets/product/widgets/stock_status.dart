@@ -33,8 +33,9 @@ class StockStatus extends StatelessWidget {
         return Text(
           product.inStock! ? S.of(context).inStock : S.of(context).outOfStock,
           style: TextStyle(
-            color:
-                product.inStock! ? kStockColor.inStock : kStockColor.outOfStock,
+            color: product.inStock!
+                ? const Color(0xFFFCB800)
+                : kStockColor.outOfStock,
             fontWeight: FontWeight.w500,
             fontSize: 12,
           ),
