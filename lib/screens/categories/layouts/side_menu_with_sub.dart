@@ -56,6 +56,18 @@ class SideMenuSubCategoriesState extends State<SideMenuSubCategories> {
     return categories;
   }
 
+  int categoriesCountCompare(Category a, Category b) {
+    final propertyA = a.totalProduct;
+    final propertyB = b.totalProduct;
+    if (propertyA! > propertyB!) {
+      return -1;
+    } else if (propertyA < propertyB) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -69,6 +81,7 @@ class SideMenuSubCategoriesState extends State<SideMenuSubCategories> {
         }
 
         final categories = provider.rootCategories ?? <Category>[];
+        categories.sort(categoriesCountCompare);
 
         if (categories.isEmpty) {
           return Center(
@@ -231,9 +244,9 @@ class _StateGridSubCategory extends State<GridSubCategory> {
                               child: SizedBox(
                                 width: gridSize,
                                 height: gridSize,
-                                child:
-                                
-                                    FluxImage(imageUrl: (getCatImagePlaceholder(categories[i].image))!),
+                                child: FluxImage(
+                                    imageUrl: (getCatImagePlaceholder(
+                                        categories[i].image))!),
                               ),
                             ),
                             const SizedBox(height: 8.0),
@@ -335,9 +348,9 @@ class _StateGridSubCategory extends State<GridSubCategory> {
     );
   }
 
-  String? getCatImagePlaceholder(String? imageUrl){
-    if(imageUrl !=null && imageUrl.contains('trello')){
-      imageUrl= 'assets/images/app_icon.png';
+  String? getCatImagePlaceholder(String? imageUrl) {
+    if (imageUrl != null && imageUrl.contains('trello')) {
+      imageUrl = 'assets/images/app_icon.png';
     }
     return imageUrl;
   }
