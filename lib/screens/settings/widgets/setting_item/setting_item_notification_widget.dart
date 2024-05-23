@@ -34,9 +34,10 @@ class SettingNotificationWidget extends StatelessWidget {
       style: const TextStyle(fontSize: 16),
     );
 
-    final icon = Icon(
+    const icon = Icon(
       CupertinoIcons.bell,
-      color: Theme.of(context).colorScheme.secondary,
+      // color: Theme.of(context).colorScheme.secondary,
+      color: amamPrimaryColor,
       size: 24,
     );
 

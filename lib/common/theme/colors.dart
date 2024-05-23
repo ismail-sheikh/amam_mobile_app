@@ -95,6 +95,7 @@ const kDarkAccent = Color(0xffF4F5F5);
 const kLightBG = Color(0xffF1F2F3);
 const kDarkBG = Color(0xff1B1D26);
 const kDarkBgLight = Color(0xff282D39);
+const amamPrimaryColor = Color(0xFFFCB800);
 
 /// This color is define for the Product variant Color
 /// Please add more color to match with your Product Color name

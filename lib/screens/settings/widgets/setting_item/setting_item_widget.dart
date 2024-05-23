@@ -63,7 +63,8 @@ class SettingItemWidget extends StatelessWidget {
     final leadingWd = icon != null
         ? Icon(
             icon,
-            color: Theme.of(context).colorScheme.secondary,
+            // color: Theme.of(context).colorScheme.secondary,
+            color: amamPrimaryColor,
             size: 24,
           )
         : iconWidget;
