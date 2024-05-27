@@ -271,6 +271,7 @@ class _ProductCardState extends State<ProductCard> with ActionButtonMixin {
               Positioned(
                 right: context.isRtl ? null : widget.config.hMargin,
                 left: context.isRtl ? widget.config.hMargin : null,
+                top: -8,
                 child: HeartButton(
                   product: widget.item,
                   size: 18,

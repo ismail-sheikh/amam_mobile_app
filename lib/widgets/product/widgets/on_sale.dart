@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/constants.dart';
 import '../../../common/tools.dart';
 import '../../../generated/l10n.dart';
 import '../../../models/app_model.dart';
@@ -65,7 +66,8 @@ class ProductOnSale extends StatelessWidget {
         decoration: decoration ??
             _getSaleDecoration(
               context,
-              backgroundColor: backgroundColor,
+              // backgroundColor: backgroundColor,
+              backgroundColor: amamPrimaryColor,
               borderRadius: config.borderRadius,
             ),
         child: Text(
