@@ -248,7 +248,8 @@ class _ProductImageSliderState extends State<ProductImageSlider> {
       background: Stack(
         children: [
           Positioned.fill(
-            top: kProductDetail.marginTop,
+            // top: kProductDetail.marginTop,
+            top: 75,
             child: Listener(
               onPointerDown: (_) => _updateLastInteraction(),
               onPointerMove: (_) => _updateLastInteraction(),
