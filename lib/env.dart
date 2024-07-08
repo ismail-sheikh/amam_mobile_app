@@ -4,8 +4,8 @@ Map<String, dynamic> environment = {
   "serverConfig": {
     "url": "https://amamtrading.com/",
     "type": "woo",
-    "consumerKey": "ck_5b0dea922fd9441399603fa3b3d5a14256344c39",
-    "consumerSecret": "cs_481adc9ca236123f3b88d82803b1c03e3de602c4"
+    "consumerKey": "ck_5fd1d76e662312ed252125d451f1f90b91392755",
+    "consumerSecret": "cs_fb2cc893da0b7ee6af8c9f2ab0d7870691cb8273"
   },
   "defaultDarkTheme": false,
   "enableRemoteConfigFirebase": false,
