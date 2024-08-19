@@ -1110,7 +1110,8 @@ class WooCommerceService extends BaseServices {
               'id': item['id'],
               'title': item['method_title'],
               'method_title': item['instance_id'],
-              'description': item['description']
+              'description': item['description'],
+              'icon': item['icon'],
             };
             list.add(PaymentMethod.fromJson(methodItem));
           }

@@ -7,12 +7,14 @@ class PaymentMethod {
   String? id;
   String? title;
   String? description;
+  String? icon;
   bool? enabled;
 
   PaymentMethod({
     this.id,
     this.title,
     this.description,
+    this.icon,
     this.enabled,
   });
 
@@ -21,6 +23,7 @@ class PaymentMethod {
       'id': id,
       'title': title,
       'description': description,
+      'icon': icon,
       'enabled': enabled
     };
   }
@@ -33,6 +36,10 @@ class PaymentMethod {
     description = parsedJson['description'] is String &&
             isNotBlank(parsedJson['description'])
         ? parsedJson['description']
+        : null;
+    icon = parsedJson['icon'] is String &&
+            isNotBlank(parsedJson['icon'])
+        ? parsedJson['icon']
         : null;
     enabled = true;
   }

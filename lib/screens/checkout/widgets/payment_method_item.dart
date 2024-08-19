@@ -61,9 +61,9 @@ class PaymentMethodItem extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 15),
                                   ],
-                                  if (kPayments[paymentMethod.id] != null)
+                                  if (kPayments[paymentMethod.id] != null || paymentMethod.icon != null)
                                     FluxImage(
-                                      imageUrl: kPayments[paymentMethod.id],
+                                      imageUrl: paymentMethod.icon != null ? paymentMethod.icon: kPayments[paymentMethod.id],
                                       height: 30,
                                     ),
                                 ],
