@@ -9,6 +9,7 @@ import '../../common/constants.dart';
 import '../../data/boxes.dart';
 import '../../models/app_model.dart';
 import '../../modules/dynamic_layout/index.dart';
+import '../../widgets/common/address_dropdown.dart';
 import '../../widgets/home/index.dart';
 import '../base_screen.dart';
 
@@ -27,6 +28,7 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
   // @override
   // bool get wantKeepAlive => true;
   List<CategoryItemConfig> catConfigItems = [];
+  List<String> addresses = []; // Example list of addresses
   @override
   void dispose() {
     printLog('[Home] dispose');
@@ -83,6 +85,26 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
                         child: HomeBackground(config: appConfig.background),
                       )
                     : HomeBackground(config: appConfig.background),
+              Positioned(
+                top: 50.0,
+                left: 16.0,
+                right: 16.0,
+                child: Row(
+                  children: <Widget>[
+                    const Icon(
+                      Icons.location_on,
+                      color: amamPrimaryColor,
+                    ), // Map icon
+                    const SizedBox(width: 8.0),
+                    const Text('Deliver To:'),
+                    const SizedBox(width: 8.0),
+                    Expanded(
+                      child:
+                          AddressDropdown(), // Your updated AddressDropdown widget
+                    ),
+                  ],
+                ),
+              ),
               HomeLayout(
                 isPinAppBar: isStickyHeader,
                 isShowAppbar: isShowAppbar,
@@ -92,31 +114,6 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
                 key: Key('$langCode$countryCode'),
                 scrollController: widget.scrollController,
               ),
-              // Consumer<CategoryModel>(builder: (context, provider, child) {
-              //   // if (provider.isFirstLoad) {
-              //   //   return Center(
-              //   //     child: kLoadingWidget(context),
-              //   //   );
-              //   // }
-              //   final categories = provider.rootCategories ?? <Category>[];
-
-              // for (var cat in categories) {
-              //   var catConfigItem = CategoryItemConfig(
-              //       title: cat.displayName,
-              //       image: cat.image,
-              //       category: cat.id);
-              //   catConfigItems.add(catConfigItem);
-              // }
-              // // printLog(categories);
-              // return CategoryImages(
-              //   config: CategoryConfig(
-              //       commonItemConfig: CommonItemConfig(),
-              //       items: catConfigItems),
-              // );
-              // }),
-              // CategoryImages(
-              //   config: CategoryConfig.fromJson(appConfig),
-              // ),
               SmartEngagementBanner(
                 context: App.fluxStoreNavigatorKey.currentContext!,
                 config: bannerConfig,
@@ -128,11 +125,62 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
                   return DynamicLayout(config: data);
                 },
               ),
+
               // Remove `WrapStatusBar` because we already have `SafeArea`
               // inside `HomeLayout`
               // const WrapStatusBar(),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  List<DropdownMenuItem<String>> _buildDropdownItems() {
+    return [
+      ...addresses.map((address) {
+        return DropdownMenuItem<String>(
+          value: address,
+          child: Text(address),
+        );
+      }).toList(),
+      const DropdownMenuItem<String>(
+        value: 'add_new',
+        child: Text('Add New Address'),
+      ),
+    ];
+  }
+
+  void _showAddAddressDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add New Address'),
+          content: TextField(
+            decoration:
+                const InputDecoration(hintText: 'Enter your new address'),
+            onSubmitted: (newAddress) {
+              setState(() {
+                addresses.add(newAddress);
+              });
+              Navigator.of(context).pop();
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Add'),
+              onPressed: () {
+                // Handle address addition logic here
+              },
+            ),
+          ],
         );
       },
     );
