@@ -86,9 +86,10 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
                       )
                     : HomeBackground(config: appConfig.background),
               Positioned(
-                top: 50.0,
+                top: 16.0,
                 left: 16.0,
                 right: 16.0,
+                bottom: 16.0,
                 child: Row(
                   children: <Widget>[
                     const Icon(
