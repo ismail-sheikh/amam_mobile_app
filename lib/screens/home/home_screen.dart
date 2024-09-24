@@ -85,27 +85,6 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
                         child: HomeBackground(config: appConfig.background),
                       )
                     : HomeBackground(config: appConfig.background),
-              Positioned(
-                top: 16.0,
-                left: 16.0,
-                right: 16.0,
-                bottom: 16.0,
-                child: Row(
-                  children: <Widget>[
-                    const Icon(
-                      Icons.location_on,
-                      color: amamPrimaryColor,
-                    ), // Map icon
-                    const SizedBox(width: 8.0),
-                    const Text('Deliver To:'),
-                    const SizedBox(width: 8.0),
-                    Expanded(
-                      child:
-                          AddressDropdown(), // Your updated AddressDropdown widget
-                    ),
-                  ],
-                ),
-              ),
               HomeLayout(
                 isPinAppBar: isStickyHeader,
                 isShowAppbar: isShowAppbar,
@@ -114,6 +93,25 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
                 configs: appConfig.jsonData,
                 key: Key('$langCode$countryCode'),
                 scrollController: widget.scrollController,
+              ),
+              Positioned(
+                top: 16.0,
+                left: 16.0,
+                right: 16.0,
+                child: Row(
+                  children: <Widget>[
+                    const Icon(
+                      Icons.location_on,
+                      color: amamPrimaryColor,
+                    ), // Map icon
+                    // const SizedBox(width: 8.0),
+                    const Text('Deliver To:'),
+                    const SizedBox(width: 8.0),
+                    Expanded(
+                      child: AddressDropdown(),
+                    ),
+                  ],
+                ),
               ),
               SmartEngagementBanner(
                 context: App.fluxStoreNavigatorKey.currentContext!,
@@ -132,56 +130,6 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
               // const WrapStatusBar(),
             ],
           ),
-        );
-      },
-    );
-  }
-
-  List<DropdownMenuItem<String>> _buildDropdownItems() {
-    return [
-      ...addresses.map((address) {
-        return DropdownMenuItem<String>(
-          value: address,
-          child: Text(address),
-        );
-      }).toList(),
-      const DropdownMenuItem<String>(
-        value: 'add_new',
-        child: Text('Add New Address'),
-      ),
-    ];
-  }
-
-  void _showAddAddressDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Add New Address'),
-          content: TextField(
-            decoration:
-                const InputDecoration(hintText: 'Enter your new address'),
-            onSubmitted: (newAddress) {
-              setState(() {
-                addresses.add(newAddress);
-              });
-              Navigator.of(context).pop();
-            },
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Add'),
-              onPressed: () {
-                // Handle address addition logic here
-              },
-            ),
-          ],
         );
       },
     );

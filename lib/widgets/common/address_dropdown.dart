@@ -14,6 +14,7 @@ class AddressDropdown extends StatefulWidget {
 
 class _AddressDropdownState extends State<AddressDropdown> {
   List<Address?> listAddress = [];
+  Address? selectedAddress; // Track the selected address
   bool isLoading = true;
 
   @override
@@ -35,7 +36,10 @@ class _AddressDropdownState extends State<AddressDropdown> {
 
   void _getDataFromLocal() {
     var list = List<Address>.from(UserBox().addresses);
-    listAddress = list;
+    setState(() {
+      listAddress = list;
+      selectedAddress = list.isNotEmpty ? list[0] : null; // Set initial value
+    });
   }
 
   Future<void> _getDataFromNetwork() async {
@@ -57,13 +61,17 @@ class _AddressDropdownState extends State<AddressDropdown> {
     }
 
     return DropdownButton<Address?>(
-      value: listAddress.isNotEmpty ? listAddress[0] : null,
+      value: selectedAddress,
       items: _buildDropdownItems(),
       onChanged: (Address? newAddress) {
+        setState(() {
+          selectedAddress = newAddress; // Update selected address
+        });
         if (newAddress == null) {
           _showAddAddressDialog();
         } else {
           // Handle address change logic here
+          print('Selected Address: ${newAddress.street}, ${newAddress.city}');
         }
       },
       isExpanded: true,
