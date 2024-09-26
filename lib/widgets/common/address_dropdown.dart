@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../widgets/common/place_picker.dart';
+import '../../common/config.dart';
 import '../../data/boxes.dart';
 import '../../models/index.dart' show Address, UserModel;
 import '../../services/index.dart';
@@ -117,10 +119,39 @@ class _AddressDropdownState extends State<AddressDropdown> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Add New Address'),
+          title: const Text('Select Address'),
           content: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                ElevatedButton.icon(
+                  onPressed: () async {
+                    // Navigate to the place picker widget
+                    final location = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PlacePicker(
+                            kGoogleApiKey.web), // Use your place picker here
+                      ),
+                    );
+                    // Check if a location was selected
+                    if (location != null) {
+                      // Fill in the address fields using the selected location data
+                      streetController.text = location.street ?? '';
+                      cityController.text = location.city ?? '';
+                      stateController.text = location.state ?? '';
+                      countryController.text = location.country ?? '';
+                      zipCodeController.text = location.zip ?? '';
+                      if (location.latLng != null) {
+                        latitudeController.text =
+                            location.latLng!.latitude.toString();
+                        longitudeController.text =
+                            location.latLng!.longitude.toString();
+                      }
+                    }
+                  },
+                  icon: const Icon(Icons.location_on),
+                  label: const Text('Use Current Location'),
+                ),
                 TextField(
                   controller: firstNameController,
                   decoration: const InputDecoration(hintText: 'First Name'),
@@ -200,8 +231,10 @@ class _AddressDropdownState extends State<AddressDropdown> {
                   zipCode: zipCodeController.text,
                   latitude: latitudeController.text,
                   longitude: longitudeController.text,
-                  mapUrl:
-                      '', // Optional: you can generate this or leave it empty
+                  mapUrl: latitudeController.text.isNotEmpty &&
+                          longitudeController.text.isNotEmpty
+                      ? 'https://maps.google.com/maps?q=${latitudeController.text},${longitudeController.text}&output=embed'
+                      : null,
                 );
 
                 _addNewAddress(newAddress);
