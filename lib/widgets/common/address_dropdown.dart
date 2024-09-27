@@ -3,10 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/tools/flash.dart';
 import '../../../widgets/common/place_picker.dart';
 import '../../common/config.dart';
 import '../../data/boxes.dart';
-import '../../models/index.dart' show Address, UserModel;
+import '../../models/index.dart' show Address, UserModel, CartModel;
 import '../../services/index.dart';
 
 class AddressDropdown extends StatefulWidget {
@@ -73,7 +74,8 @@ class _AddressDropdownState extends State<AddressDropdown> {
           _showAddAddressDialog();
         } else {
           // Handle address change logic here
-          print('Selected Address: ${newAddress.street}, ${newAddress.city}');
+          Provider.of<CartModel>(context, listen: false)
+              .setAddress(selectedAddress);
         }
       },
       isExpanded: true,
@@ -150,7 +152,12 @@ class _AddressDropdownState extends State<AddressDropdown> {
                     }
                   },
                   icon: const Icon(Icons.location_on),
-                  label: const Text('Use Current Location'),
+                  // label: const Text('Select on Map'),
+                  label: const Padding(
+                    padding: EdgeInsets.only(
+                        right: 16.0), // Padding on the right of the text
+                    child: Text('Select on Map'),
+                  ),
                 ),
                 TextField(
                   controller: firstNameController,
@@ -251,7 +258,24 @@ class _AddressDropdownState extends State<AddressDropdown> {
     setState(() {
       listAddress.add(newAddress);
     });
-
+    saveDataToLocal(newAddress);
     // Optionally, save the new address to local storage or server
+  }
+
+  void saveDataToLocal(Address address) {
+    var listAddress = <Address>[];
+    // final address = this.address;
+    listAddress.add(address);
+    var listData = UserBox().addresses;
+    if (listData.isNotEmpty) {
+      for (var item in listData) {
+        listAddress.add(item);
+      }
+    }
+    UserBox().addresses = listAddress;
+    FlashHelper.message(
+      context,
+      message: 'Your Address Has Been Saved!',
+    );
   }
 }
