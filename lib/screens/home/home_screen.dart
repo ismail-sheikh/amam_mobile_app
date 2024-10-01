@@ -9,6 +9,7 @@ import '../../common/constants.dart';
 import '../../data/boxes.dart';
 import '../../models/app_model.dart';
 import '../../modules/dynamic_layout/index.dart';
+import '../../routes/flux_navigate.dart';
 import '../../widgets/common/address_dropdown.dart';
 import '../../widgets/home/index.dart';
 import '../base_screen.dart';
@@ -95,24 +96,43 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
                 scrollController: widget.scrollController,
               ),
               Positioned(
-                top: 16.0,
+                top: 30.0,
                 left: 16.0,
                 right: 16.0,
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Icon(
-                      Icons.location_on,
-                      color: amamPrimaryColor,
-                    ), // Map icon
-                    // const SizedBox(width: 8.0),
-                    const Text('Deliver To:'),
-                    const SizedBox(width: 8.0),
-                    Expanded(
-                      child: AddressDropdown(),
+                    Row(
+                      children: <Widget>[
+                        const Icon(
+                          Icons.location_on,
+                          color: amamPrimaryColor,
+                        ), // Map icon
+                        const SizedBox(width: 8.0),
+                        const Text('Deliver To:'),
+                        const SizedBox(width: 8.0),
+                        Expanded(
+                          child: AddressDropdown(),
+                        ),
+                      ],
                     ),
+                    HeaderSearch(
+                      config: HeaderConfig.fromJson(
+                          {'title': 'search...', 'marginTop': 0.0}),
+                      onSearch: () {
+                        FluxNavigate.pushNamed(
+                          RouteList.homeSearch,
+                          forceRootNavigator: true,
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                        height:
+                            128.0), // Add spacing after the search bar to avoid overlapping with banners
                   ],
                 ),
               ),
+
               SmartEngagementBanner(
                 context: App.fluxStoreNavigatorKey.currentContext!,
                 config: bannerConfig,
