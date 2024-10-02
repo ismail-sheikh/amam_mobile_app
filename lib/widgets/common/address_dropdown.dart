@@ -257,6 +257,7 @@ class _AddressDropdownState extends State<AddressDropdown> {
   void _addNewAddress(Address newAddress) {
     setState(() {
       listAddress.add(newAddress);
+      selectedAddress = newAddress;
     });
     saveDataToLocal(newAddress);
     // Optionally, save the new address to local storage or server
