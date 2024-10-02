@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inspireui/widgets/smart_engagement_banner/index.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/category/category_model.dart';
-import '../../app.dart';
 import '../../common/config.dart';
 import '../../common/constants.dart';
 import '../../data/boxes.dart';
@@ -86,63 +84,88 @@ class _HomeScreenState extends BaseScreen<HomeScreen> {
                         child: HomeBackground(config: appConfig.background),
                       )
                     : HomeBackground(config: appConfig.background),
-              HomeLayout(
-                isPinAppBar: isStickyHeader,
-                isShowAppbar: isShowAppbar,
-                showNewAppBar:
-                    appConfig.appBar?.shouldShowOn(RouteList.home) ?? false,
-                configs: appConfig.jsonData,
-                key: Key('$langCode$countryCode'),
-                scrollController: widget.scrollController,
-              ),
+
+              // // HomeLayout should be rendered separately from the container
+              // HomeLayout(
+              //   isPinAppBar: isStickyHeader,
+              //   isShowAppbar: isShowAppbar,
+              //   showNewAppBar:
+              //       appConfig.appBar?.shouldShowOn(RouteList.home) ?? false,
+              //   configs: appConfig.jsonData,
+              //   key: Key('$langCode$countryCode'),
+              //   scrollController: widget.scrollController,
+              // ),
+              // const SizedBox(height: 15.0),
+
+              // This is the dropdown and search bar container that is placed separately
               Positioned(
-                top: 30.0,
+                top: 0.0,
                 left: 16.0,
                 right: 16.0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        const Icon(
-                          Icons.location_on,
-                          color: amamPrimaryColor,
-                        ), // Map icon
-                        const SizedBox(width: 8.0),
-                        const Text('Deliver To:'),
-                        const SizedBox(width: 8.0),
-                        Expanded(
-                          child: AddressDropdown(),
-                        ),
-                      ],
-                    ),
-                    HeaderSearch(
-                      config: HeaderConfig.fromJson(
-                          {'title': 'search...', 'marginTop': 0.0}),
-                      onSearch: () {
-                        FluxNavigate.pushNamed(
-                          RouteList.homeSearch,
-                          forceRootNavigator: true,
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                        height:
-                            128.0), // Add spacing after the search bar to avoid overlapping with banners
-                  ],
+                child: Container(
+                  margin: const EdgeInsets.only(
+                      bottom: 0.0, left: 5.0, right: 5.0, top: 30.0),
+                  // decoration: BoxDecoration(
+                  //   border: Border.all(
+                  //     color: Colors.grey, // Border color
+                  //     width: 1.0, // Border width
+                  //   ),
+                  //   borderRadius: BorderRadius.circular(8.0),
+                  // ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      HeaderSearch(
+                        config: HeaderConfig.fromJson({
+                          'title': 'search...',
+                          'marginTop': 0.0,
+                          'marginBottom': 0.0
+                        }),
+                        onSearch: () {
+                          FluxNavigate.pushNamed(
+                            RouteList.homeSearch,
+                            forceRootNavigator: true,
+                          );
+                        },
+                      ),
+                      Row(
+                        children: <Widget>[
+                          const Icon(
+                            Icons.location_on,
+                            color: amamPrimaryColor,
+                          ), // Map icon
+                          const SizedBox(width: 8.0),
+                          const Text('Deliver To:'),
+                          const SizedBox(width: 8.0),
+                          Expanded(
+                            child: AddressDropdown(),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-
-              SmartEngagementBanner(
-                context: App.fluxStoreNavigatorKey.currentContext!,
-                config: bannerConfig,
-                enablePopup: isShowPopupBanner,
-                afterClosePopup: () {
-                  afterClosePopup(bannerConfig.popup.updatedTime);
-                },
-                childWidget: (data) {
-                  return DynamicLayout(config: data);
-                },
+              // Container around HomeLayout with top margin to create space below search bar
+              Container(
+                margin: const EdgeInsets.only(
+                    top: 100.0), // Add top margin to create space
+                // decoration: BoxDecoration(
+                //   border: Border.all(
+                //     color: Colors.yellow, // Border color
+                //     width: 1.0, // Border width
+                //   ),
+                //   borderRadius: BorderRadius.circular(8.0),
+                // ),
+                child: HomeLayout(
+                  isPinAppBar: isStickyHeader,
+                  isShowAppbar: isShowAppbar,
+                  showNewAppBar:
+                      appConfig.appBar?.shouldShowOn(RouteList.home) ?? false,
+                  configs: appConfig.jsonData,
+                  key: Key('$langCode$countryCode'),
+                  scrollController: widget.scrollController,
+                ),
               ),
 
               // Remove `WrapStatusBar` because we already have `SafeArea`
