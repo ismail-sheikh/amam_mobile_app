@@ -101,6 +101,10 @@ class ProductList extends StatelessWidget {
       config: config,
       cleanCache: cleanCache,
       child: ({maxWidth, maxHeight, products}) {
+        if (products == null || products.isEmpty) {
+          // Return an empty widget if products are empty
+          return const SizedBox.shrink();
+        }
         final duration = getCountDownDuration(products, isSaleOffLayout);
 
         return Column(
