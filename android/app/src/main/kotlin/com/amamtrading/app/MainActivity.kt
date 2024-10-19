@@ -1,4 +1,4 @@
-package com.amamtrading.app
+package com.amamtradingmobile.app
 
 import android.app.NotificationManager
 import android.content.Context
